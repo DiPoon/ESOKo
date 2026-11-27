@@ -37,7 +37,7 @@
       ? '/' + location.pathname.split('/')[1] + '/'
       : '/';
     if (base !== '/') document.getElementById('home').href = base;
-    location.replace(base);
+    if (location.pathname !== base) location.replace(base);
   </script>
 </body>
 </html>
