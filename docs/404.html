@@ -27,15 +27,16 @@
 <body>
   <main>
     <h1>페이지를 옮겼습니다</h1>
-    <p>esokr.org 웹 번역 사이트는 운영을 마쳤습니다. 한글 패치는 <a id="home" href="/">첫 페이지</a>에서 받을 수 있습니다.</p>
+    <p>esokr.org 웹 번역 사이트는 운영을 마쳤습니다. 한글 패치는 <a id="home" href="https://esokr.org/">첫 페이지</a>에서 받을 수 있습니다.</p>
   </main>
   <script>
     // 옛 주소(/download, /translate 등)로 들어오면 첫 페이지로 보냅니다.
     // github.io 미리보기 주소에서는 /저장소이름/ 이 첫 페이지입니다.
+    // 정적 링크는 https://esokr.org/ 이고, 미리보기 주소에서만 덮어씁니다.
     const base = location.hostname.endsWith('github.io')
       ? '/' + location.pathname.split('/')[1] + '/'
       : '/';
-    document.getElementById('home').href = base;
+    if (base !== '/') document.getElementById('home').href = base;
     location.replace(base);
   </script>
 </body>

@@ -109,7 +109,7 @@
     <section class="card" aria-labelledby="download-title">
       <h2 id="download-title">최신 패치 받기</h2>
       <p class="version" id="latest-version" hidden></p>
-      <a class="button" href="https://github.com/DIPOON/ESOKo/releases/latest/download/EsoKR-patch.zip">한글 패치 다운로드 (zip)</a>
+      <a class="button" id="download-button" href="https://github.com/DIPOON/ESOKo/releases/latest/download/EsoKR-patch.zip">한글 패치 다운로드 (zip)</a>
       <p class="sub">zip 안에 <code>kr.lang</code>, <code>kr_client.str</code>, <code>kr_pregame.str</code> 세 파일이 들어 있습니다.</p>
       <p class="sub"><a href="https://github.com/DIPOON/ESOKo/releases">이전 버전과 변경 내역 보기</a></p>
     </section>
@@ -118,10 +118,10 @@
       <h2 id="install-title">적용 방법</h2>
       <ol>
         <li><a href="https://www.esoui.com/downloads/info2334-EsoKR.html">EsoKR 애드온</a>을 설치합니다.</li>
-        <li>문서 폴더의 <code>Elder Scrolls Online\live\AddOns</code>를 엽니다. 기존 파일을 보관하려면 아래 세 파일을 다른 곳에 백업합니다.</li>
-        <li>받은 zip을 <code>AddOns</code> 폴더에 풀고, 같은 이름의 파일은 덮어씁니다.</li>
+        <li>문서 폴더의 <code>Elder Scrolls Online\live\AddOns</code>를 엽니다. macOS에서는 <code>~/Documents/Elder Scrolls Online/live/AddOns</code>입니다. 기존 파일을 보관하려면 아래 세 파일을 다른 곳에 백업합니다.</li>
+        <li>받은 zip을 <code>AddOns</code> 폴더 바로 아래에 풀고, 같은 이름의 파일은 덮어씁니다. 압축 프로그램에서 "여기에 풀기"를 고르세요. "압축 풀기"나 "알아서 풀기"는 <code>EsoKR-patch</code> 폴더를 새로 만들어 그 안에 풀기 때문에 패치가 적용되지 않습니다.</li>
       </ol>
-      <p class="sub">압축을 풀면 파일이 아래 위치에 놓입니다.</p>
+      <p class="sub">풀고 나서 파일이 아래 위치에 있는지 확인하세요. <code>AddOns\EsoKR-patch</code> 폴더가 생겼다면 그 안의 <code>gamedata</code>와 <code>EsoUI</code> 폴더를 <code>AddOns</code>로 옮기면 됩니다.</p>
       <ul>
         <li><code>AddOns\gamedata\lang\kr.lang</code></li>
         <li><code>AddOns\EsoUI\lang\kr_client.str</code></li>
@@ -148,17 +148,28 @@
   </main>
   <script>
     (async () => {
+      // 이 저장소의 Releases에는 패치 파일이 없는 릴리스(웹 앱 버전 등)도 섞여 있습니다.
+      // 그래서 GitHub의 "latest" 대신 EsoKR-patch.zip이 붙은 가장 최근 정식 릴리스를 고릅니다.
+      const ASSET = 'EsoKR-patch.zip';
       const label = document.getElementById('latest-version');
+      const button = document.getElementById('download-button');
       try {
-        const res = await fetch('https://api.github.com/repos/DIPOON/ESOKo/releases/latest', {
+        const res = await fetch('https://api.github.com/repos/DIPOON/ESOKo/releases?per_page=30', {
           headers: { Accept: 'application/vnd.github+json' },
         });
         if (!res.ok) return;
-        const release = await res.json();
-        label.textContent = '최신 버전: ' + (release.name || release.tag_name);
-        label.hidden = false;
+        const releases = await res.json();
+        for (const release of releases) {
+          if (release.draft || release.prerelease) continue;
+          const asset = (release.assets || []).find((a) => a.name === ASSET);
+          if (!asset) continue;
+          button.href = asset.browser_download_url;
+          label.textContent = '최신 버전: ' + (release.name || release.tag_name);
+          label.hidden = false;
+          break;
+        }
       } catch (e) {
-        // 버전 표시는 부가 정보라서 실패해도 다운로드 버튼은 그대로 동작합니다.
+        // 실패하면 버튼은 기본값인 latest/download 주소를 그대로 씁니다.
       }
     })();
   </script>
