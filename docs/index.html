@@ -119,9 +119,9 @@
       <ol>
         <li><a href="https://www.esoui.com/downloads/info2334-EsoKR.html">EsoKR 애드온</a>을 설치합니다.</li>
         <li>문서 폴더의 <code>Elder Scrolls Online\live\AddOns</code>를 엽니다. macOS에서는 <code>~/Documents/Elder Scrolls Online/live/AddOns</code>입니다. 기존 파일을 보관하려면 아래 세 파일을 다른 곳에 백업합니다.</li>
-        <li>받은 zip을 <code>AddOns</code> 폴더 바로 아래에 풀고, 같은 이름의 파일은 덮어씁니다. 압축 프로그램에서 "여기에 풀기"를 고르세요. "압축 풀기"나 "알아서 풀기"는 <code>EsoKR-patch</code> 폴더를 새로 만들어 그 안에 풀기 때문에 패치가 적용되지 않습니다.</li>
+        <li>받은 zip을 <code>AddOns</code> 폴더로 옮긴 뒤 그 자리에 풉니다. 압축 프로그램에 "여기에 풀기"가 있으면 그것을 고르고, 같은 이름의 파일은 덮어씁니다.</li>
       </ol>
-      <p class="sub">풀고 나서 파일이 아래 위치에 있는지 확인하세요. <code>AddOns\EsoKR-patch</code> 폴더가 생겼다면(macOS 기본 압축 해제는 항상 이렇게 풉니다) 그 안의 세 파일을 각각 아래 위치로 옮기세요. 폴더째 옮기면 macOS Finder는 기존 폴더를 합치지 않고 통째로 바꿔서 안에 있던 다른 파일이 사라집니다. macOS에서는 경로의 <code>\</code>를 <code>/</code>로 읽으면 됩니다.</p>
+      <p class="sub">풀고 나서 파일이 아래 위치에 있는지 확인하세요. Windows의 "모두 압축 풀기"와 macOS 기본 압축 해제는 <code>EsoKR-patch</code> 폴더를 새로 만들어 그 안에 풉니다(zip을 옮기지 않았다면 다운로드 폴더에 생깁니다). 이 경우 게임이 파일을 읽지 못하니 직접 옮겨야 합니다. <code>AddOns</code>에 <code>gamedata</code>나 <code>EsoUI</code> 폴더가 아직 없으면 폴더째 옮기고, 이미 있으면 세 파일만 각각 아래 위치로 옮기세요. 이미 있는 폴더 위로 폴더째 옮기면 macOS Finder는 합치지 않고 통째로 바꿔서 안에 있던 다른 파일이 사라집니다. macOS에서는 경로의 <code>\</code>를 <code>/</code>로 읽으면 됩니다.</p>
       <ul>
         <li><code>AddOns\gamedata\lang\kr.lang</code></li>
         <li><code>AddOns\EsoUI\lang\kr_client.str</code></li>
@@ -164,7 +164,8 @@
         let release = await getJson(API + '/latest');
         if (!release || !patchAsset(release)) {
           // 목록 API는 게시일이 아니라 태그 커밋 날짜(created_at) 순이라 게시일로 다시 정렬합니다.
-          const releases = ((await getJson(API + '?per_page=30')) || [])
+          // 한 번에 받을 수 있는 최대 100개만 봅니다. 릴리스가 그보다 많아지면 최신 패치가 빠질 수 있습니다.
+          const releases = ((await getJson(API + '?per_page=100')) || [])
             .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''));
           release = releases.find((r) => !r.draft && !r.prerelease && patchAsset(r));
         }
