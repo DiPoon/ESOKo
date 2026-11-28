@@ -109,7 +109,7 @@
     <section class="card" aria-labelledby="download-title">
       <h2 id="download-title">최신 패치 받기</h2>
       <p class="version" id="latest-version" hidden></p>
-      <a class="button" id="download-button" href="https://github.com/DIPOON/ESOKo/releases/latest/download/EsoKR-patch.zip">한글 패치 다운로드 (zip)</a>
+      <a class="button" id="download-button" href="https://github.com/DIPOON/ESOKo/releases/latest/download/eso-kr-patch.zip">한글 패치 다운로드 (zip)</a>
       <p class="sub">zip 안에 <code>kr.lang</code>, <code>kr_client.str</code>, <code>kr_pregame.str</code> 세 파일이 들어 있습니다.</p>
       <p class="sub"><a href="https://github.com/DIPOON/ESOKo/releases">이전 버전과 변경 내역 보기</a></p>
     </section>
@@ -121,7 +121,7 @@
         <li>문서 폴더의 <code>Elder Scrolls Online\live\AddOns</code>를 엽니다. macOS에서는 <code>~/Documents/Elder Scrolls Online/live/AddOns</code>입니다. 기존 파일을 보관하려면 아래 세 파일을 다른 곳에 백업합니다.</li>
         <li>받은 zip을 <code>AddOns</code> 폴더로 옮긴 뒤 그 자리에 풉니다. 압축 프로그램에 "여기에 풀기"가 있으면 그것을 고르고, 같은 이름의 파일은 덮어씁니다.</li>
       </ol>
-      <p class="sub">풀고 나서 파일이 아래 위치에 있는지 확인하세요. Windows의 "모두 압축 풀기"와 macOS 기본 압축 해제는 <code>EsoKR-patch</code> 폴더를 새로 만들어 그 안에 풉니다(zip을 옮기지 않았다면 다운로드 폴더에 생깁니다). 이 경우 게임이 파일을 읽지 못하니 직접 옮겨야 합니다. <code>gamedata</code>와 <code>EsoUI</code> 폴더를 하나씩 따로 보고, <code>AddOns</code>에 같은 이름의 폴더가 없으면 폴더째 옮기고 이미 있으면 그 안의 파일만 아래 위치로 옮기세요. 이미 있는 폴더 위로 폴더째 옮기면 macOS Finder는 합치지 않고 통째로 바꿔서 안에 있던 다른 파일이 사라집니다. macOS에서는 경로의 <code>\</code>를 <code>/</code>로 읽으면 됩니다.</p>
+      <p class="sub">풀고 나서 파일이 아래 위치에 있는지 확인하세요. Windows의 "모두 압축 풀기"와 macOS 기본 압축 해제는 <code>eso-kr-patch</code> 폴더를 새로 만들어 그 안에 풉니다(zip을 옮기지 않았다면 다운로드 폴더에 생깁니다). 이 경우 게임이 파일을 읽지 못하니 직접 옮겨야 합니다. <code>gamedata</code>와 <code>EsoUI</code> 폴더를 하나씩 따로 보고, <code>AddOns</code>에 같은 이름의 폴더가 없으면 폴더째 옮기고 이미 있으면 그 안의 파일만 아래 위치로 옮기세요. 이미 있는 폴더 위로 폴더째 옮기면 macOS Finder는 합치지 않고 통째로 바꿔서 안에 있던 다른 파일이 사라집니다. macOS에서는 경로의 <code>\</code>를 <code>/</code>로 읽으면 됩니다.</p>
       <ul>
         <li><code>AddOns\gamedata\lang\kr.lang</code></li>
         <li><code>AddOns\EsoUI\lang\kr_client.str</code></li>
@@ -148,11 +148,11 @@
   </main>
   <script>
     (async () => {
-      // GitHub에서 Latest로 지정된 릴리스에 EsoKR-patch.zip이 있으면 그것을 씁니다.
+      // GitHub에서 Latest로 지정된 릴리스에 eso-kr-patch.zip이 있으면 그것을 씁니다.
       // 이 저장소의 Releases에는 패치 파일이 없는 릴리스(웹 앱 버전 등)도 섞여 있어서,
       // Latest에 파일이 없으면 파일이 붙은 정식 릴리스 중 가장 최근에 게시된 것을 고릅니다.
       const API = 'https://api.github.com/repos/DIPOON/ESOKo/releases';
-      const ASSET = 'EsoKR-patch.zip';
+      const ASSET = 'eso-kr-patch.zip';
       const label = document.getElementById('latest-version');
       const button = document.getElementById('download-button');
       const getJson = async (url) => {
